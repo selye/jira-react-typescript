@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react'
 
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
+export const isVoid = (value: unknown) => value === undefined || value === null || value === ""
 // 改变本身是不对的
-export const cleanObject = (object: object) => {
+export const cleanObject = (object: { [key: string]: unknown }) => {
     const result = { ...object }
     Object.keys(result).forEach(key => {
-        // @ts-ignore
         const value = result[key]
-        if (isFalsy(value)) {
-            // @ts-ignore
+        if (isVoid(value)) {
             delete result[key]
         }
     })
     return result
 }
-
 
 export const useMount = (callBack: () => void) => {
     useEffect(() => {
@@ -22,7 +20,6 @@ export const useMount = (callBack: () => void) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 }
-
 
 export const useDebounce = <V>(value: V, delay?: number) => {
     const [debuncedValue, setDebuncedValue] = useState(value)

@@ -18,9 +18,9 @@ export const UnauthenticatedApp = () => {
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
         {isRegister ? <RegisterScreens /> : <LoginScreens />}
         <div style={{ height: "20px" }}></div>
-        <a onClick={() => setIsRegister(!isRegister)}>
+        <Button type={"link"} onClick={() => setIsRegister(!isRegister)}>
           {isRegister ? `已经有账号了？直接登录` : `没有账号?注册新账号`}
-        </a>
+        </Button>
       </ShadowCard>
     </Container>
   );
@@ -28,7 +28,7 @@ export const UnauthenticatedApp = () => {
 
 export const LongButton = styled(Button)`
   width: 100%;
-`
+`;
 
 const Title = styled.h2`
   margin-bottom: 2.4rem;

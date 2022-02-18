@@ -1,11 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
-import React, { useState, useEffect } from "react";
-import { cleanObject, useMount, useDebounce } from "utils";
-import qs from "qs";
-import { useHTTP } from "utils/http";
-
-const apiUrl = process.env.REACT_APP_API_URL;
+import React, { useState } from "react";
+import { useDebounce } from "utils";
+import styled from "@emotion/styled";
+import { Typography } from "antd";
+import { useProjects } from "utils/project";
+import { useUsers } from "utils/users";
 
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
@@ -13,28 +14,23 @@ export const ProjectListScreen = () => {
     personId: "",
   });
 
-  const [users, setUsers] = useState([]);
-
-  const [list, setList] = useState([]);
-
-  //  2: debunce监听params变化  返回最后一个执行的debuncedValue
   const debuncedParam = useDebounce(param, 1000);
+  const { isLoading, error, data: list } = useProjects(debuncedParam);
+  const { data: users } = useUsers();
 
-  const client = useHTTP()
-
-  useEffect(() => {
-    client('projects', {data: cleanObject(debuncedParam)}).then(setList)
-    //  3: 当得到最终的debuncedValue的时候   去请求接口
-  }, [debuncedParam]);
-
-  useMount(() => {
-    client('users').then(setUsers)
-  });
   return (
-    <div>
+    <Container>
       {/* 1: 当子组件改变父组件的param */}
-      <SearchPanel users={users} param={param} setParam={setParam} />
-      <List users={users} list={list} />
-    </div>
+      <h1>项目列表</h1>
+      <SearchPanel users={users || []} param={param} setParam={setParam} />
+      {error ? (
+        <Typography.Text type={"danger"}>{error.message}</Typography.Text>
+      ) : null}
+      <List loading={isLoading} users={users || []} dataSource={list || []} />
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
