@@ -42,15 +42,16 @@ export const useAsync = <D>(initalState?: State<D>) => {
             setData(data)
             return data
         }).catch(error => {
+            // promise 的catch会自动消化异常  不会自己往外抛异常
             setError(error)
-            return error
+            return Promise.reject(error)
         })
     }
 
     return {
         isAdle: state.status === "idle",
         isLoading: state.status === "loading",
-        isError:state.status === "error",
+        isError: state.status === "error",
         isSuccess: state.status === "success",
         ...state,
         run,
