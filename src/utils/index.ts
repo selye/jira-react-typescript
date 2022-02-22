@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export const isFalsy = (value: unknown) => value === 0 ? false : !value
 export const isVoid = (value: unknown) => value === undefined || value === null || value === ""
@@ -28,4 +28,22 @@ export const useDebounce = <V>(value: V, delay?: number) => {
         return () => clearTimeout(timeOut)
     }, [value, delay])
     return debuncedValue
+}
+
+export const useDocumentTitle = (title: string, keepUnMontAlive: boolean = true) => {
+    const oldTitle = useRef(document.title).current;
+    console.log("加载时title:" + oldTitle)
+    useEffect(() => {
+        document.title = title
+    }, [title])
+
+    useEffect(() => {
+        return () => {
+            if (!keepUnMontAlive) {
+                console.log("卸载时title:" + oldTitle)
+                document.title = oldTitle
+            }
+        }
+    }, [oldTitle, keepUnMontAlive])
+
 }
