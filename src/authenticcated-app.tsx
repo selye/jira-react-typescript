@@ -5,8 +5,31 @@ import { Row } from "components/lib";
 import { ReactComponent as SoftWareLogo } from "../src/asstes/software-logo.svg";
 import { Dropdown, Menu, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Routes, Route } from "react-router";
+import { ProjectScreen } from "screens/project";
 
 export const AuthenicatedApp = () => {
+  return (
+    <Container>
+      <PageHeader />
+      <Main>
+        <Router>
+          <Routes>
+            <Route index element={<ProjectListScreen />} />
+            <Route path={"/projects"} element={<ProjectListScreen />}></Route>
+            <Route
+              path={"/projects/:projectId/*"}
+              element={<ProjectScreen />}
+            ></Route>
+          </Routes>
+        </Router>
+      </Main>
+    </Container>
+  );
+};
+
+const PageHeader = () => {
   const { logOut, user } = useAuth();
   const menu = (
     <Menu>
@@ -16,26 +39,21 @@ export const AuthenicatedApp = () => {
     </Menu>
   );
   return (
-    <Container>
-      <Header between={true}>
-        <HeaderLeft gap={true}>
-          <SoftWareLogo width={"18rem"} color={"rgb(38,132,255)"} />
-          <h2>项目</h2>
-          <h2>用户</h2>
-        </HeaderLeft>
-        <HeaderRight>
-          <Dropdown overlay={menu}>
-            <Button type={"link"}>
-              Hi· {user?.name}
-              <DownOutlined />
-            </Button>
-          </Dropdown>
-        </HeaderRight>
-      </Header>
-      <Main>
-        <ProjectListScreen />
-      </Main>
-    </Container>
+    <Header between={true}>
+      <HeaderLeft gap={true}>
+        <SoftWareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        <h2>项目</h2>
+        <h2>用户</h2>
+      </HeaderLeft>
+      <HeaderRight>
+        <Dropdown overlay={menu}>
+          <Button type={"link"}>
+            Hi· {user?.name}
+            <DownOutlined />
+          </Button>
+        </Dropdown>
+      </HeaderRight>
+    </Header>
   );
 };
 
