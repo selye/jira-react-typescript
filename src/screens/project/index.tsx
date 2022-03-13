@@ -42,15 +42,29 @@ export const ProjectScreen = () => {
       console.log("已经第一项了");
       return;
     }
-    //  [1,2,3,4,5 ]
+    //  ['李寻欢','阿飞','乔峰','段誉','虚竹' ]
     // splice(1,0,)
-    personArray.splice(itemIndex - 1, 0, personArray[itemIndex]); // 在上一项插入
-    personArray.splice(itemIndex + 1, 1); // 删除后一项
+    personArray[itemIndex - 1] = personArray.splice(
+      itemIndex,
+      1,
+      personArray[itemIndex - 1]
+    )[0]; // 在上一项插入
+
+    // console.log(personArray.splice(itemIndex - 1, 1, personArray[itemIndex - 1])[0]);
     setPersonArray([...personArray]);
-    console.log(personArray);
   };
   const downItem = () => {
-    console.log("down");
+    if (itemIndex - (personArray.length - 1) === 0) {
+      console.log("已经最后一项了");
+      return;
+    }
+
+    personArray[itemIndex + 1] = personArray.splice(
+      itemIndex,
+      1,
+      personArray[itemIndex + 1]
+    )[0];
+    setPersonArray([...personArray]);
   };
 
   return (
