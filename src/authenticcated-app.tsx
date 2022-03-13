@@ -8,6 +8,7 @@ import { DownOutlined } from "@ant-design/icons";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { ProjectScreen } from "screens/project";
+import { resetRouter } from "utils";
 
 export const AuthenicatedApp = () => {
   return (
@@ -41,7 +42,9 @@ const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <SoftWareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        <Button type={"link"} onClick={resetRouter}>
+          <SoftWareLogo width={"18rem"} color={"rgb(38,132,255)"} />
+        </Button>
         <h2>项目</h2>
         <h2>用户</h2>
       </HeaderLeft>
