@@ -52,3 +52,8 @@ export const useDocumentTitle = (title: string, keepUnMontAlive: boolean = true)
         }
     }, [keepUnMontAlive, oldTitle])
 }
+
+export const resetRouter = () => {
+    window.location.href = window.location.origin
+}
+
