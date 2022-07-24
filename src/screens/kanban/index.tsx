@@ -1,5 +1,4 @@
 import { Radio } from "antd";
-import { request } from "http";
 import React from "react";
 import { useSpring, animated } from "react-spring";
 import "./index.less";
@@ -38,13 +37,13 @@ const option: OptionProp[] = [
 
 export const KanbanScreens = () => {
   const styles = useSpring({
-    delay:2000,
+    delay: 2000,
     from: {
-      x:-100,
+      x: -100,
       opacity: 0,
     },
     to: {
-      x:0,
+      x: 0,
       opacity: 1,
     },
   });

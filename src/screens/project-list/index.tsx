@@ -23,15 +23,6 @@ export const ProjectListScreen = () => {
     <Container>
       {/* 1: 当子组件改变父组件的param */}
       <h1>项目列表</h1>
-      <select
-        onChange={(e) => {
-          console.log(e.target.value, typeof e.target.value);
-        }}
-      >
-        <option value={undefined}>默认选项</option>
-        <option value={1}>第一个选项</option>
-        <option value={2}>第二个选项</option>
-      </select>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
