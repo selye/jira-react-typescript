@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { List, Popover, Typography } from "antd";
+import { Divider, List, Popover, Typography } from "antd";
 import React from "react";
 import { useProjects } from "utils/project";
 
-export const ProjectPopover: React.FC = () => {
-
+export const ProjectPopover: React.FC<{ projectButton: JSX.Element }> = (props) => {
+    const { projectButton } = props;
     const { data: projects } = useProjects();
     const pinProjectts = projects?.filter(project => project.pin);
     const content = <ContainerDiv>
@@ -16,6 +16,8 @@ export const ProjectPopover: React.FC = () => {
                 </List.Item>)
             }
         </List>
+        <Divider />
+        {projectButton}
     </ContainerDiv>
     return <Popover placement={"bottom"} content={content}>
         项目

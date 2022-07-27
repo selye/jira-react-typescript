@@ -19,12 +19,14 @@ export const AuthenicatedApp = () => {
 
   return (
     <Container>
-      <PageHeader />
+      <PageHeader projectButton={
+        <Button type={"primary"} onClick={() => setProjectModalOpen(true)}>创建项目</Button>
+      } />
       <Main>
         <Router>
           <Routes>
-            <Route index element={<ProjectListScreen />} />
-            <Route path={"/projects"} element={<ProjectListScreen />}></Route>
+            <Route index element={<ProjectListScreen projectButton={<Button type={"primary"} onClick={() => setProjectModalOpen(true)}>创建项目</Button>} />} />
+            <Route path={"/projects"} element={<ProjectListScreen projectButton={<Button type={"primary"} onClick={() => setProjectModalOpen(true)}>创建项目</Button>} />}></Route>
             <Route
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
@@ -37,8 +39,9 @@ export const AuthenicatedApp = () => {
   );
 };
 
-const PageHeader = () => {
+const PageHeader = (props: { projectButton: JSX.Element }) => {
   const { logOut, user } = useAuth();
+  const { projectButton } = props
   const menu = (
     <Menu>
       <Menu.Item key={"logOut"}>
@@ -52,7 +55,7 @@ const PageHeader = () => {
         <Button style={{ "padding": "0" }} type={"link"} onClick={resetRouter}>
           <SoftWareLogo width={"18rem"} color={"rgb(38,132,255)"} />
         </Button>
-        <ProjectPopover />
+        <ProjectPopover projectButton={projectButton} />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>

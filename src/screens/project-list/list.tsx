@@ -1,4 +1,4 @@
-import { Table, TableProps } from "antd";
+import { Button, Dropdown, Menu, Table, TableProps } from "antd";
 import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import React from "react";
@@ -17,9 +17,10 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
   users: User[];
+  projectButton: JSX.Element;
 }
 
-export const List = ({ users, ...props }: ListProps) => {
+export const List = ({ users, projectButton, ...props }: ListProps) => {
   const { mutate } = useEditProject()
   const pinProject = (id: number) => (pin: boolean) => {
     console.log("pin", pin)
@@ -75,6 +76,17 @@ export const List = ({ users, ...props }: ListProps) => {
               </span>
             );
           },
+        },
+        {
+          render(_, record) {
+            return <Dropdown overlay={
+              <Menu>
+                <Menu.Item key={"edit"}>{projectButton}</Menu.Item>
+              </Menu>
+            }>
+              <Button type={"link"}>...</Button>
+            </Dropdown>
+          }
         },
       ]}
       {...props}
