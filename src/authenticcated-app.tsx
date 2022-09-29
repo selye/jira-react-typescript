@@ -9,24 +9,18 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { ProjectScreen } from "screens/project";
 import { resetRouter } from "utils";
-import { useState } from "react";
 import { ProjectModal } from "screens/project-list/project-modal";
 import { ProjectPopover } from "components/project-popover";
 
 export const AuthenicatedApp = () => {
-
-  const [projectModalOpen, setProjectModalOpen] = useState<boolean>(false);
-
   return (
     <Container>
-      <PageHeader projectButton={
-        <Button type={"primary"} onClick={() => setProjectModalOpen(true)}>创建项目</Button>
-      } />
+      <PageHeader />
       <Main>
         <Router>
           <Routes>
-            <Route index element={<ProjectListScreen projectButton={<Button type={"primary"} onClick={() => setProjectModalOpen(true)}>创建项目</Button>} />} />
-            <Route path={"/projects"} element={<ProjectListScreen projectButton={<Button type={"primary"} onClick={() => setProjectModalOpen(true)}>创建项目</Button>} />}></Route>
+            <Route index element={<ProjectListScreen />} />
+            <Route path={"/projects"} element={<ProjectListScreen />}></Route>
             <Route
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
@@ -34,14 +28,13 @@ export const AuthenicatedApp = () => {
           </Routes>
         </Router>
       </Main>
-      <ProjectModal projectModalOpen={projectModalOpen} onCancel={() => setProjectModalOpen(false)} />
+      <ProjectModal />
     </Container>
   );
 };
 
-const PageHeader = (props: { projectButton: JSX.Element }) => {
+const PageHeader = () => {
   const { logOut, user } = useAuth();
-  const { projectButton } = props
   const menu = (
     <Menu>
       <Menu.Item key={"logOut"}>
@@ -52,10 +45,10 @@ const PageHeader = (props: { projectButton: JSX.Element }) => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <Button style={{ "padding": "0" }} type={"link"} onClick={resetRouter}>
+        <Button style={{ padding: "0" }} type={"link"} onClick={resetRouter}>
           <SoftWareLogo width={"18rem"} color={"rgb(38,132,255)"} />
         </Button>
-        <ProjectPopover projectButton={projectButton} />
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>

@@ -4,7 +4,9 @@ import dayjs from "dayjs";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useEditProject } from "utils/project";
+import { projectListActions } from "./project-list-slice";
 import { User } from "./search-panel";
+import { useDispatch } from "react-redux";
 
 export interface Project {
   id: number;
@@ -17,15 +19,16 @@ export interface Project {
 
 interface ListProps extends TableProps<Project> {
   users: User[];
-  projectButton: JSX.Element;
 }
 
-export const List = ({ users, projectButton, ...props }: ListProps) => {
-  const { mutate } = useEditProject()
+export const List = ({ users, ...props }: ListProps) => {
+  const { mutate } = useEditProject();
+  const dispatch = useDispatch();
+
   const pinProject = (id: number) => (pin: boolean) => {
-    console.log("pin", pin)
-    mutate({ id, pin })
-  }
+    console.log("pin", pin);
+    mutate({ id, pin });
+  };
   return (
     <Table
       pagination={false}
@@ -36,14 +39,16 @@ export const List = ({ users, projectButton, ...props }: ListProps) => {
           dataIndex: "pinChecked",
           render: (_, record) => (
             <Pin checked={record.pin} onCheckedChange={pinProject(record.id)} />
-          )
+          ),
         },
         {
           title: "名称",
           key: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
-            return <Link to={String(`/projects/${project.id}`)}>{project.name}</Link>;
+            return (
+              <Link to={String(`/projects/${project.id}`)}>{project.name}</Link>
+            );
           },
         },
         {
@@ -79,14 +84,28 @@ export const List = ({ users, projectButton, ...props }: ListProps) => {
         },
         {
           render(_, record) {
-            return <Dropdown overlay={
-              <Menu>
-                <Menu.Item key={"edit"}>{projectButton}</Menu.Item>
-              </Menu>
-            }>
-              <Button type={"link"}>...</Button>
-            </Dropdown>
-          }
+            return (
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key={"edit"}>
+                      {
+                        <Button
+                          onClick={() =>
+                            dispatch(projectListActions.openProjectModal())
+                          }
+                        >
+                          创建项目
+                        </Button>
+                      }
+                    </Menu.Item>
+                  </Menu>
+                }
+              >
+                <Button type={"link"}>...</Button>
+              </Dropdown>
+            );
+          },
         },
       ]}
       {...props}

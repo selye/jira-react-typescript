@@ -4,16 +4,19 @@ import { SearchPanel } from "./search-panel";
 import React, { useState } from "react";
 import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
-import { Col, Row, Typography } from "antd";
+import { Button, Col, Row, Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/users";
+import { useDispatch } from "react-redux";
+import { projectListActions } from "./project-list-slice";
 
-export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
+export const ProjectListScreen = () => {
+  const dispatch = useDispatch();
+
   const [param, setParam] = useState({
     name: "",
     personId: "",
   });
-  const { projectButton } = props
   const debuncedParam = useDebounce(param, 1000);
   const { isLoading, error, data: list } = useProjects(debuncedParam);
   const { data: users } = useUsers();
@@ -26,8 +29,12 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
         <Col span={12}>
           <h1>项目列表</h1>
         </Col>
-        <Col span={12} style={{ "textAlign": "right" }}>
-          {projectButton}
+        <Col span={12} style={{ textAlign: "right" }}>
+          <Button
+            onClick={() => dispatch(projectListActions.openProjectModal())}
+          >
+            创建项目
+          </Button>
         </Col>
       </Row>
 
@@ -35,7 +42,7 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
       {error ? (
         <Typography.Text type={"danger"}>{error.message}</Typography.Text>
       ) : null}
-      <List projectButton={projectButton} loading={isLoading} users={users || []} dataSource={list || []} />
+      <List loading={isLoading} users={users || []} dataSource={list || []} />
 
       {/* <Calendar dateCellRender={dateCellRender} /> */}
     </Container>
