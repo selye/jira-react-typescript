@@ -47,7 +47,6 @@ export const useAsync = <D>(initalState?: State<D>) => {
             return Promise.reject(error)
         })
     }
-
     return {
         isAdle: state.status === "idle",
         isLoading: state.status === "loading",
