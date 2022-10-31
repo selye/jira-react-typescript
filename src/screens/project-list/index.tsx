@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
 import { Col, Row, Typography } from "antd";
@@ -10,17 +10,22 @@ import { useUsers } from "utils/users";
 import { useUrlQueryParam } from "utils/url";
 
 export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
-  const [param, setParam] = useState({
+  const [, setParam] = useState({
     name: "",
     personId: "",
   });
-  // const [param] = useUrlQueryParam(keys);
+  // const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
+  const [param] = useUrlQueryParam(["name", "personId"]);
   console.log(param);
   const { projectButton } = props;
   const debuncedParam = useDebounce(param, 1000);
   const { isLoading, error, data: list } = useProjects(debuncedParam);
   const { data: users } = useUsers();
   useDocumentTitle("项目列表", false);
+
+  useEffect(() => {
+    console.log(param);
+  }, []);
 
   return (
     <Container>
