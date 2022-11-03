@@ -10,22 +10,18 @@ import { useUsers } from "utils/users";
 import { useUrlQueryParam } from "utils/url";
 
 export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
-  const [, setParam] = useState({
-    name: "",
-    personId: "",
-  });
+  // const [, setParam] = useState({
+  //   name: "",
+  //   personId: "",
+  // });
   // const [keys] = useState<("name" | "personId")[]>(["name", "personId"]);
-  const [param] = useUrlQueryParam(["name", "personId"]);
-  console.log(param);
+  const [param, setParam] = useUrlQueryParam(["name", "personId"]);
+
   const { projectButton } = props;
   const debuncedParam = useDebounce(param, 1000);
   const { isLoading, error, data: list } = useProjects(debuncedParam);
   const { data: users } = useUsers();
   useDocumentTitle("项目列表", false);
-
-  useEffect(() => {
-    console.log(param);
-  }, []);
 
   return (
     <Container>
@@ -55,7 +51,7 @@ export const ProjectListScreen = (props: { projectButton: JSX.Element }) => {
   );
 };
 
-ProjectListScreen.whyDidYouRender = true;
+ProjectListScreen.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;
