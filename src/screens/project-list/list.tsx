@@ -22,11 +22,13 @@ interface ListProps extends TableProps<Project> {
 
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
-  const { open } = useProjectModal();
   const pinProject = (id: number) => (pin: boolean) => {
-    console.log("pin", pin);
     mutate({ id, pin });
   };
+
+  const { startEdit } = useProjectModal();
+  const editProject = (id: number) => () => startEdit(id);
+  
   return (
     <Table
       pagination={false}
@@ -87,7 +89,7 @@ export const List = ({ users, ...props }: ListProps) => {
                 overlay={
                   <Menu>
                     <Menu.Item key={"edit"}>
-                      <Button onClick={open}>创建项目</Button>
+                      <Button onClick={editProject(record.id)}>编辑项目</Button>
                     </Menu.Item>
                   </Menu>
                 }

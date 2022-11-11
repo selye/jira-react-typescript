@@ -9,10 +9,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Routes, Route } from "react-router";
 import { ProjectScreen } from "screens/project";
 import { resetRouter } from "utils";
-import { useState } from "react";
 import { ProjectModal } from "screens/project-list/project-modal";
 import { ProjectPopover } from "components/project-popover";
-import { useProjectModal } from "screens/project-list/util";
 
 export const AuthenicatedApp = () => {
   // const [projectModalOpen, setProjectModalOpen] = useState<boolean>(false);

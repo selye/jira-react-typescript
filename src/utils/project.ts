@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Project } from "screens/project-list/list";
 import { useHTTP } from "./http";
-import { useAsync } from "./use-async";
 
 
 export const useProjects = (param?: Partial<Project>) => {
@@ -27,7 +26,7 @@ export const useEditProject = () => {
 export const useAddProject = () => {
     const client = useHTTP();
     const queryClient = useQueryClient()
-    return useMutation((params: Partial<Project>) => client(`projects/${params.id}`, {
+    return useMutation((params: Partial<Project>) => client(`projects`, {
         method: "POST",
         data: params
     }), {
@@ -37,4 +36,20 @@ export const useAddProject = () => {
         }
     }
     )
+}
+
+export const useProject = (id: number) => {
+    const client = useHTTP();
+    return useQuery<Project>(
+        ["project", { id }],
+        () => {
+            console.log("我请求了")
+            return client(`projects/${id}`)
+        },
+        /* 当id存在的时候才会触发useQuery请求 */
+        {
+            enabled: Boolean(id)
+        }
+    )
+
 }
