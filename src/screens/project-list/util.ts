@@ -5,34 +5,31 @@ export const useProjectModal = () => {
     const [{ projectCreate }, setProjectCreate] = useUrlQueryParam([
         'projectCreate'
     ])
-    const [{ editProjectId }, setEditProjectId] = useUrlQueryParam([
-        'editProjectId'
-    ])
-    const { data: editProject, isLoading } = useProject(Number(editProjectId))
-    console.log("请求", editProject, isLoading)
+    const [{ editingProjectId }, setEditingProjectId] = useUrlQueryParam([
+        "editingProjectId",
+    ]);
+    const { data: editProject, isLoading } = useProject(Number(editingProjectId === "" ? undefined : editingProjectId))
 
-    const open = () => setProjectCreate({
-        projectCreate: true
-    })
+    const open = () => setProjectCreate({ projectCreate: true })
 
     const close = () => {
         projectCreate ?
             setProjectCreate({
-                projectCreate: undefined
+                projectCreate: ""
             }) :
-            setEditProjectId({
-                editProjectId: undefined
+            setEditingProjectId({
+                editingProjectId: ""
             })
     }
 
-    const startEdit = (id: number) => {
-        setEditProjectId({
-            editProjectId: id
+    const startEdit = (id: number) =>
+        setEditingProjectId({
+            editingProjectId: id
         })
-    }
+
 
     return {
-        projectModalOpen: projectCreate === "true" || Boolean(editProjectId),
+        projectModalOpen: projectCreate === "true" || Boolean(editingProjectId),
         open,
         close,
         startEdit,

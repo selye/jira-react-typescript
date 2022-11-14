@@ -23,12 +23,17 @@ interface ListProps extends TableProps<Project> {
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
   const pinProject = (id: number) => (pin: boolean) => {
-    mutate({ id, pin });
+    const params = {
+      id,
+      pin,
+    };
+    console.log(params);
+    mutate(params);
   };
 
   const { startEdit } = useProjectModal();
   const editProject = (id: number) => () => startEdit(id);
-  
+
   return (
     <Table
       pagination={false}

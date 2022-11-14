@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Project } from "screens/project-list/list";
 import { useHTTP } from "./http";
 
@@ -10,19 +10,37 @@ export const useProjects = (param?: Partial<Project>) => {
 }
 
 export const useEditProject = () => {
-    const client = useHTTP();
     const queryClient = useQueryClient()
-    return useMutation((params: Partial<Project>) => client(`projects/${params.id}`, {
-        method: "PATCH",
-        data: params
-    }), {
-        onSuccess: () => {
-            /* 更新成功之后 使之前缓存的数据失效 */
-            queryClient.invalidateQueries(["projects"])
+    const client = useHTTP();
+    return useMutation(
+        (params: Partial<Project>) =>
+            client(`projects/${params.id}`, {
+                method: "PATCH",
+                data: params,
+            }),
+        {
+            onSuccess: () => {
+                /* 更新成功之后 使之前缓存的数据失效 */
+                queryClient.invalidateQueries(["projects"])
+            }
         }
-    }
-    )
-}
+    );
+};
+
+// export const useEditProject = () => {
+//     const client = useHTTP();
+//     const queryClient = useQueryClient()
+//     return useMutation((params: Partial<Project>) => client(`projects/${params.id}`, {
+//         method: "PATCH",
+//         data: params
+//     }), {
+//         onSuccess: () => {
+//             /* 更新成功之后 使之前缓存的数据失效 */
+//             queryClient.invalidateQueries(["projects"])
+//         }
+//     }
+//     )
+// }
 export const useAddProject = () => {
     const client = useHTTP();
     const queryClient = useQueryClient()
@@ -38,18 +56,13 @@ export const useAddProject = () => {
     )
 }
 
-export const useProject = (id: number) => {
+export const useProject = (id?: number) => {
     const client = useHTTP();
     return useQuery<Project>(
         ["project", { id }],
-        () => {
-            console.log("我请求了")
-            return client(`projects/${id}`)
-        },
-        /* 当id存在的时候才会触发useQuery请求 */
+        () => client(`projects/${id}`),
         {
-            enabled: Boolean(id)
+            enabled: Boolean(id),
         }
-    )
-
-}
+    );
+};

@@ -15,11 +15,11 @@ interface IdSelectProps
 
 const toNumber = (value: unknown) => (isNaN(Number(value)) ? 0 : Number(value));
 
-const UserSelect = (props: IdSelectProps) => {
+export const IdSelect = (props: IdSelectProps) => {
   const { value, onChange, defaultOptionName, options, ...restProps } = props;
   return (
     <Select
-      value={toNumber(value)}
+      value={options?.length ? toNumber(value) : 0}
       onChange={(value) => onChange?.(toNumber(value) || undefined)}
       {...restProps}
     >
@@ -35,5 +35,3 @@ const UserSelect = (props: IdSelectProps) => {
     </Select>
   );
 };
-
-export default UserSelect;

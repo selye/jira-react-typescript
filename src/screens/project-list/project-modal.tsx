@@ -1,7 +1,7 @@
 import { Button, Drawer, Form, Input, Spin } from "antd";
 import { useForm } from "antd/lib/form/Form";
-import UserSelect from "components/IdSelect";
 import { ErrorBox } from "components/lib";
+import { UserSelect } from "components/user-select";
 import React, { useEffect } from "react";
 import { useAddProject, useEditProject } from "utils/project";
 import { useProjectModal } from "./util";
@@ -13,12 +13,18 @@ export const ProjectModal: React.FC = () => {
   const form = useForm()[0];
   const useMutateProject = editProject ? useEditProject : useAddProject;
   const { mutateAsync, error, isLoading: mutateLoading } = useMutateProject();
-  const onFinish = async (values: any) => {
-    console.log({ ...editProject }, { ...values })
-    mutateAsync({ ...editProject }, { ...values }).then(() => {
+
+  const onFinish = (values: any) => {
+    console.log({ ...editProject }, { ...values });
+
+    mutateAsync({ ...editProject, ...values }).then(() => {
       form.resetFields();
       close();
     });
+  };
+  const closeModal = () => {
+    form.resetFields();
+    close();
   };
 
   useEffect(() => {
@@ -32,9 +38,9 @@ export const ProjectModal: React.FC = () => {
       forceRender={true}
       width={"100%"}
       visible={projectModalOpen}
-      onClose={close}
+      onClose={closeModal}
     >
-      {editProject && isLoading ? (
+      {isLoading ? (
         <Spin size={"large"} />
       ) : (
         <>
