@@ -1,5 +1,5 @@
 // 获取用户信息  登录 登出 注册
-import { User } from "screens/project-list/search-panel"
+import { User } from "types/user";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const localStorageKey = "__auth_provider_token__"

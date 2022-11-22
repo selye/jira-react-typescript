@@ -1,14 +1,6 @@
 import { Form, Input, Select } from "antd";
 import React from "react";
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  title: string;
-  organization: string;
-  token: string;
-}
+import { User } from "../../types/user";
 
 interface SeachPanelProps {
   users: User[];

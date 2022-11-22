@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { User } from "screens/project-list/search-panel";
+import { User } from "types/user";
 import { useHTTP } from "./http";
 
 export const useUsers = (param?: Partial<User>) => {
