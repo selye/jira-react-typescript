@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
-import { Button, Col, Row, Typography } from "antd";
+import { Button, Row, Typography } from "antd";
 import { useProjects } from "utils/project";
 import { useUsers } from "utils/users";
 import { useUrlQueryParam } from "utils/url";

@@ -3,7 +3,7 @@ import { Kanban } from "types/kanban";
 import { Task } from "types/task";
 import { useHTTP } from "./http";
 
-export const useKanban = (param?: Partial<Kanban>) => {
+export const useKanbans = (param?: Partial<Kanban>) => {
     const client = useHTTP();
 
     return useQuery<Task[], Error>(["Kanbans", param], () => client("Kanbans", { data: param }))
